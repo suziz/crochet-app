@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="sv" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#121212">
+    <link rel="apple-touch-icon" href="resources/icon-192.png">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <title>Mönster</title>
+
+    <style>
+        .row-item { display:flex; align-items:flex-start; gap:.75rem; }
+        .row-text { flex: 1; }
+        .part-card + .part-card { margin-top: 1rem; }
+        .strike { text-decoration: line-through; opacity: .75; }
+        .preserve-lines { white-space: pre-line; }
+
+        .desc-section { margin-bottom: 0.75rem; }
+        .desc-section .section-title {
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        }
+        .desc-items .col-md-6 { padding-bottom: 0.25rem; }
+        .desc-items li { list-style: none; padding-left: 0; margin-bottom: 0.15rem; }
+    </style>
+</head>
+<body>
+<div class="container py-4">
+  <header class="d-flex justify-content-between align-items-center mb-3">
+    <a href="index.html" class="btn btn-outline-secondary btn-sm">
+      <i class="bi bi-arrow-left me-1"></i> Tillbaka
+    </a>
+
+    <div class="d-flex gap-2">
+      <button id="resetBtn" class="btn btn-outline-warning btn-sm" type="button">
+        <i class="bi bi-arrow-counterclockwise me-1"></i> Rensa progress
+      </button>
+    </div>
+  </header>
+
+  <div id="content"></div>
+
+  <div id="notFound" class="alert alert-danger d-none">
+    Hittar inte mönstret. Gå tillbaka till listan och prova igen.
+  </div>
+</div>
+
+<script type="module" src="js/pattern.js"></script>
+</body>
+</html>
