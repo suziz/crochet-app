@@ -1,0 +1,11 @@
+.part-intro {
+  background: rgba(120, 180, 255, 0.12);
+  padding: 10px;
+  border: 1px solid rgba(120, 180, 255, 0.25);
+}
+
+.part-outro {
+  background: rgba(255, 160, 220, 0.12);
+  padding: 10px;
+  border: 1px solid rgba(255, 160, 220, 0.25);
+}
