@@ -106,88 +106,128 @@ function createRow(partIdx, rowIdx, instructionValue = "", rowNumberValue = "") 
 }
 
 function createPartCard(partIdx, partNameValue = "", partId = crypto.randomUUID()) {
+  const collapseId = `part-body-${partIdx}`;
   const card = document.createElement("div");
   card.className = "card";
   card.dataset.partIndex = partIdx;
   card.dataset.partId = partId;
 
-  card.innerHTML = `
-    <div class="card-header d-flex gap-2 align-items-center">
-      <i class="bi bi-diagram-3 me-2"></i>
+card.innerHTML = `
+  <div class="card-header d-flex align-items-center gap-2">
 
-      <!-- part_id (stabil nyckel) -->
-      <input type="hidden" name="parts[${partIdx}][part_id]" value="${escapeAttr(partId)}">
+    <!-- Klickbar titel-yta -->
+    <div class="d-flex align-items-center gap-2 flex-grow-1 part-toggle"
+         role="button"
+         data-toggle-part="${collapseId}"
+         title="Fäll ihop/ut">
 
-      <input type="text" class="form-control" name="parts[${partIdx}][name]" placeholder="t.ex. Kropp"
-             value="${escapeAttr(partNameValue || "")}" required>
+      <i class="bi bi-diagram-3"></i>
 
-      <button type="button" class="btn btn-outline-primary btn-sm addRowBtn">
-        <i class="bi bi-plus-circle me-1"></i>Lägg till varv
-      </button>
+      <span class="fw-semibold">
+        ${escapeAttr(partNameValue || "Ny del")}
+      </span>
 
-      <button type="button" class="btn btn-outline-secondary btn-sm"
-              data-bs-toggle="collapse" data-bs-target="#paste-${partIdx}"
-              aria-expanded="false" aria-controls="paste-${partIdx}">
-        <i class="bi bi-clipboard-plus me-1"></i>Klistra in varv
-      </button>
-
-      <button type="button" class="btn btn-outline-danger btn-sm ms-auto removePartBtn" title="Ta bort del">
-        <i class="bi bi-trash"></i>
-      </button>
+      <i class="bi bi-chevron-down text-body-secondary"></i>
     </div>
 
-    <div class="card-body">
-      <div class="collapse mb-3" id="paste-${partIdx}">
-        <div class="mb-2">
-          <label class="form-label">Klistra in rader för denna del</label>
-          <textarea class="form-control pasteText" data-part-index="${partIdx}" rows="6"></textarea>
-        </div>
+    <!-- DINA KNAPPAR (utanför toggle-ytan) -->
+    <button type="button" class="btn btn-outline-primary btn-sm addRowBtn">
+      <i class="bi bi-plus-circle"></i>
+    </button>
 
-        <div class="row g-2 align-items-center">
-          <div class="col-12 col-md-auto">
-            <div class="form-check">
-              <input class="form-check-input pasteExpand" type="checkbox" id="expand-${partIdx}" checked>
-              <label class="form-check-label" for="expand-${partIdx}">Expandera intervall</label>
-            </div>
-          </div>
+    <button type="button" class="btn btn-outline-secondary btn-sm"
+            data-bs-toggle="collapse"
+            data-bs-target="#paste-${partIdx}">
+      <i class="bi bi-clipboard-plus"></i>
+    </button>
 
-          <div class="col-12 col-md-auto">
-            <div class="form-check">
-              <input class="form-check-input pasteAutoNumber" type="checkbox" id="autonum-${partIdx}" checked>
-              <label class="form-check-label" for="autonum-${partIdx}">Numrera rader utan “Varv …”</label>
-            </div>
-          </div>
+    <button type="button"
+            class="btn btn-outline-danger btn-sm removePartBtn">
+      <i class="bi bi-trash"></i>
+    </button>
 
-          <div class="col-12 col-md-auto">
-            <div class="form-check">
-              <input class="form-check-input pasteSmartSplit" type="checkbox" id="smartsplit-${partIdx}" checked>
-              <label class="form-check-label" for="smartsplit-${partIdx}">Smart radbryt</label>
-            </div>
-          </div>
+    <!-- part_id -->
+    <input type="hidden"
+           name="parts[${partIdx}][part_id]"
+           value="${escapeAttr(partId)}">
+  </div>
 
-          <div class="col-12 col-md-auto ms-md-auto">
-            <button type="button" class="btn btn-outline-secondary btn-sm pasteRowsExample" data-part-index="${partIdx}">
-              <i class="bi bi-file-earmark-text me-1"></i>Exempel
-            </button>
-            <button type="button" class="btn btn-outline-secondary btn-sm pasteRowsAppend" data-part-index="${partIdx}">
-              <i class="bi bi-plus-lg me-1"></i>Lägg till
-            </button>
-            <button type="button" class="btn btn-primary btn-sm pasteRowsReplace" data-part-index="${partIdx}">
-              <i class="bi bi-arrow-repeat me-1"></i>Ersätt
-            </button>
-          </div>
-        </div>
+  <div id="${collapseId}" class="card-body d-none">
+
+    <div class="mb-3">
+      <label class="form-label">Delens namn</label>
+      <input type="text"
+             class="form-control"
+             name="parts[${partIdx}][name]"
+             value="${escapeAttr(partNameValue || "")}"
+             required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Anteckningar</label>
+      <textarea class="form-control"
+                name="parts[${partIdx}][notes]"
+                rows="2"></textarea>
+    </div>
+
+    <div class="collapse mb-3" id="paste-${partIdx}">
+      <div class="mb-2">
+        <label class="form-label">Klistra in rader för denna del</label>
+        <textarea class="form-control pasteText" data-part-index="${partIdx}" rows="6"></textarea>
       </div>
 
-      <div class="vstack gap-2 rowsContainer"></div>
+      <div class="row g-2 align-items-center">
+        <div class="col-12 col-md-auto">
+          <div class="form-check">
+            <input class="form-check-input pasteExpand" type="checkbox" id="expand-${partIdx}" checked>
+            <label class="form-check-label" for="expand-${partIdx}">Expandera intervall</label>
+          </div>
+        </div>
 
-      <div class="mt-3">
-        <label class="form-label">Anteckningar (valfritt)</label>
-        <textarea class="form-control" name="parts[${partIdx}][notes]" rows="2"
-                  placeholder="Ex: Sy fast mellan varv 14 och 18, byt färg efter varv 10 …"></textarea>
+        <div class="col-12 col-md-auto">
+          <div class="form-check">
+            <input class="form-check-input pasteAutoNumber" type="checkbox" id="autonum-${partIdx}" checked>
+            <label class="form-check-label" for="autonum-${partIdx}">Numrera rader utan “Varv …”</label>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-auto">
+          <div class="form-check">
+            <input class="form-check-input pasteSmartSplit" type="checkbox" id="smartsplit-${partIdx}" checked>
+            <label class="form-check-label" for="smartsplit-${partIdx}">Smart radbryt</label>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-auto ms-md-auto">
+          <button type="button" class="btn btn-outline-secondary btn-sm pasteRowsExample" data-part-index="${partIdx}">
+            <i class="bi bi-file-earmark-text me-1"></i>Exempel
+          </button>
+          <button type="button" class="btn btn-outline-secondary btn-sm pasteRowsAppend" data-part-index="${partIdx}">
+            <i class="bi bi-plus-lg me-1"></i>Lägg till
+          </button>
+          <button type="button" class="btn btn-primary btn-sm pasteRowsReplace" data-part-index="${partIdx}">
+            <i class="bi bi-arrow-repeat me-1"></i>Ersätt
+          </button>
+        </div>
       </div>
     </div>
-  `;
+
+    <div class="mb-3">
+      <label class="form-label">Inledande beskrivning (valfri)</label>
+      <textarea class="form-control" name="parts[${partIdx}][introText]" rows="2"
+        placeholder="Börja med färg (08)"></textarea>
+    </div>
+
+    <div class="vstack gap-2 rowsContainer"></div>
+
+    <div class="mt-3">
+      <label class="form-label">Avslutande beskrivning (valfri)</label>
+      <textarea class="form-control" name="parts[${partIdx}][outroText]" rows="2"
+        placeholder="Avsluta arbetet och lämna en lagom lång garnände för montering...."></textarea>
+    </div>
+
+  </div>
+`;
 
   // starta med ett första varv
   const rowsContainer = card.querySelector(".rowsContainer");
@@ -205,7 +245,13 @@ function addPart(defaultName = "", partId = null) {
 addPartBtn?.addEventListener("click", () => addPart(""));
 
 // Init – lägg till första del
-addPart("Kropp");
+addPart("");
+
+const firstBody = partsContainer.querySelector(".card-body");
+if (firstBody) {
+  firstBody.classList.remove("d-none");
+}
+
 
 // --- Hjälpfunktioner för index och nästa varvnummer ---
 function getMaxRowIdx(rowsContainer) {
@@ -226,16 +272,25 @@ function getMaxRowNumber(rowsContainer) {
 }
 
 // --- Parser per del (din) ---
+// Normalisera inklistrad text till en rad per "Varv …" / "Row …"
+// och försök bryta PDF-klumpar där ett nytt varv börjar mitt i raden.
 function normalizeRowsText(text, { smartSplit = true } = {}) {
   if (!text) return "";
-  let t = text.replace(/\u00A0/g, " ").replace(/\s{2,}/g, " ").trim();
+  // ersätt icke-brytande mellanslag och normalisera bara flera mellanslag
+  let t = text.replace(/\u00A0/g, " ").replace(/[ \t]{2,}/g, " ");
 
   if (smartSplit) {
-    t = t.replace(/\s+(Varv\s*\d+(?:\s*[-–]\s*\d+)?\s*:)/gi, "\n$1");
-    t = t.replace(/\s+(R(?:ow|ound)?\s*\d+(?:\s*[-–]\s*\d+)?\s*:)/gi, "\n$1");
+    // Bryt bara före "Varv/Row/Rnd X" när det följs av ett skiljetecken
+    // t.ex. "Varv 3:", "Varv 8-10:", "Row 2." osv.
+    t = t.replace(
+      /\s+((?:Varv|V|R|Row|Round|Rnd)\s*\d+(?:\s*[-–]\s*\d+)?\s*[:.)-])/gi,
+      "\n$1"
+    );
+    // om du även har engelska versioner utan "Varv", behåll ev. fler regler här
   }
 
-  t = t.replace(/\r\n?/g, "\n")
+  t = t
+    .replace(/\r\n?/g, "\n")
     .split("\n")
     .map(s => s.trim())
     .filter(Boolean)
@@ -243,37 +298,137 @@ function normalizeRowsText(text, { smartSplit = true } = {}) {
 
   return t;
 }
-const rowRe = /^(?:varv|v|r|row|round)\s*(\d+)\s*(?:[-–]\s*(\d+))?\s*[:.\-]?\s*(.*)$/i;
 
-function parseRowsText(text, { expandRanges = true, autoNumberLoose = true, startAt = 1, smartSplit = true } = {}) {
+// Känner igen: "Varv 1: …", "V1-3 …", "Row 2–5: …", "Rnd 4. …"
+const rowRe = /^(?:varv|v|r|row|round|rnd)\s*(\d+)\s*(?:[-–]\s*(\d+))?\s*[:.)-]?\s*(.*)$/i;
+
+// Extra: rader som bara börjar med ett nummer, t.ex. "1: 6 fm"
+// eller "1) 6 fm", "1 - 6 fm"
+const numberRowRe = /^(\d+)\s*[:.)-]\s*(.*)$/;
+
+// Returnerar [{row_number, instruction}, ...]
+function parseRowsText(
+  text,
+  {
+    expandRanges = true,
+    autoNumberLoose = true,
+    startAt = 1,
+    smartSplit = true
+  } = {}
+) {
   const t = normalizeRowsText(text, { smartSplit });
   const lines = t.split("\n");
+
   const out = [];
   let next = startAt;
 
+  let lastRow = null;
+
+  // 1) allt före första varvet
+  const introLines = [];
+
+  // 2) “lösa rader” efter senaste varv – vi vet inte än om de är
+  //    fortsättning på varvet eller outroText (avgörs om ett nytt varv kommer)
+  let tailBuffer = [];
+
+  let seenAnyRow = false;
+
+  function flushTailBufferToLastRow() {
+    if (!tailBuffer.length || !lastRow) return;
+    const extra = tailBuffer.join(" ").trim();
+    if (extra) {
+      lastRow.instruction = lastRow.instruction
+        ? `${lastRow.instruction} ${extra}`
+        : extra;
+    }
+    tailBuffer = [];
+  }
+
   for (const line of lines) {
-    const m = line.match(rowRe);
+    // matcha "Varv/Row/Rnd ..."
+    let m = line.match(rowRe);
     if (m) {
+      // vi hittade ett nytt varv -> då var ev tailBuffer fortsättning på föregående varv
+      if (seenAnyRow) flushTailBufferToLastRow();
+      seenAnyRow = true;
+
       const start = parseInt(m[1], 10);
       const end = m[2] ? parseInt(m[2], 10) : null;
       const instr = (m[3] || "").trim();
 
       if (expandRanges && end && end >= start) {
-        for (let n = start; n <= end; n++) out.push({ row_number: n, instruction: instr });
+        for (let n = start; n <= end; n++) {
+          const row = { row_number: n, instruction: instr };
+          out.push(row);
+          lastRow = row;
+        }
         next = end + 1;
       } else {
-        out.push({ row_number: start, instruction: instr });
+        const row = { row_number: start, instruction: instr };
+        out.push(row);
+        lastRow = row;
         next = Math.max(next, start + 1);
       }
-    } else if (autoNumberLoose && line) {
-      out.push({ row_number: next++, instruction: line });
+      continue;
+    }
+
+    // matcha "1: text"
+    m = line.match(numberRowRe);
+    if (m) {
+      if (seenAnyRow) flushTailBufferToLastRow();
+      seenAnyRow = true;
+
+      const n = parseInt(m[1], 10);
+      const instr = (m[2] || "").trim();
+
+      const row = { row_number: n, instruction: instr };
+      out.push(row);
+      lastRow = row;
+      next = Math.max(next, n + 1);
+      continue;
+    }
+
+    // övriga rader
+    if (!line) continue;
+
+    if (!seenAnyRow) {
+      // före första varv => intro
+      introLines.push(line);
+      continue;
+    }
+
+    // efter att vi sett varv: lägg i buffer (kan bli fortsättning eller outro)
+    if (autoNumberLoose) {
+      if (lastRow) {
+        tailBuffer.push(line);
+      } else {
+        // fallback om något skulle vara konstigt
+        const row = { row_number: next++, instruction: line };
+        out.push(row);
+        lastRow = row;
+      }
     }
   }
-  return out;
+
+  // Om vi har tailBuffer kvar i slutet => det är avslutande text
+  const outroText = tailBuffer.join("\n").trim();
+
+  return {
+    introText: introLines.join("\n").trim(),
+    rows: out,
+    outroText
+  };
 }
 
 // --- Delegation för knappar i del-korten ---
 partsContainer?.addEventListener("click", (e) => {
+  const toggle = e.target.closest("[data-toggle-part]");
+  if (toggle) {
+    const id = toggle.getAttribute("data-toggle-part");
+    const body = document.getElementById(id);
+    if (body) body.classList.toggle("d-none");
+    return;
+  }
   const addRowBtn = e.target.closest(".addRowBtn");
   const removePartBtn = e.target.closest(".removePartBtn");
   const removeRowBtn = e.target.closest(".removeRowBtn");
@@ -338,18 +493,41 @@ Varv 6-7: fm i alla m [11]`;
       smartSplit: !!smartSplit?.checked
     });
 
-    if (replaceBtn) rowsContainer.innerHTML = "";
+    const introField = card.querySelector(`textarea[name="parts[${partIdx}][introText]"]`);
+    const outroField = card.querySelector(`textarea[name="parts[${partIdx}][outroText]"]`);
+
+    if (replaceBtn) {
+      rowsContainer.innerHTML = "";
+      if (introField) introField.value = parsed.introText || "";
+      if (outroField) outroField.value = parsed.outroText || "";
+    }
+    if (appendBtn) {
+      if (parsed.outroText && outroField) {
+        outroField.value = (outroField.value ? (outroField.value.trim() + "\n") : "") + parsed.outroText;
+      }
+
+      // Om någon klistrar in text som börjar med lösa rader men du redan har varv:
+      // då är det ofta fortsättning på senaste varvet i listan.
+      if (parsed.introText) {
+        const lastInstrInput = rowsContainer.querySelector(
+          'input[name$="[instruction]"]:last-of-type'
+        );
+        if (lastInstrInput) {
+          lastInstrInput.value = (lastInstrInput.value ? (lastInstrInput.value + " ") : "") + parsed.introText.replace(/\n/g, " ");
+        }
+      }
+    }
 
     let nextIdx = replaceBtn ? 1 : getMaxRowIdx(rowsContainer) + 1;
 
-    if (parsed.length === 0) {
+    if ((parsed.rows?.length || 0) === 0) {
       if (replaceBtn && rowsContainer.children.length === 0) {
         rowsContainer.appendChild(createRow(partIdx, nextIdx++, "", startAt));
       }
       return;
     }
 
-    for (const r of parsed) {
+    for (const r of (parsed.rows || [])) {
       rowsContainer.appendChild(createRow(partIdx, nextIdx++, r.instruction || "", r.row_number || ""));
     }
     return;
@@ -371,6 +549,12 @@ async function fillFormFromPattern(p) {
     const notes = card.querySelector(`textarea[name="parts[${partIndex}][notes]"]`);
     if (notes) notes.value = part.notes || "";
 
+    const intro = card.querySelector(`textarea[name="parts[${partIndex}][introText]"]`);
+    if (intro) intro.value = part.introText || "";
+
+    const outro = card.querySelector(`textarea[name="parts[${partIndex}][outroText]"]`);
+    if (outro) outro.value = part.outroText || "";
+
     const rowsContainer = card.querySelector(".rowsContainer");
     rowsContainer.innerHTML = "";
 
@@ -384,7 +568,12 @@ async function fillFormFromPattern(p) {
     }
   }
 
-  if (!partsContainer.children.length) addPart("Kropp");
+  if (!partsContainer.children.length) addPart("");
+  // Öppna första delen automatiskt
+  const firstBody = partsContainer.querySelector(".card-body");
+  if (firstBody) {
+    firstBody.classList.remove("d-none");
+  }
 
   // Bild
   currentImageBlob = p.image || null;
@@ -436,25 +625,27 @@ form?.addEventListener("submit", async (evt) => {
     const mPartName = key.match(/^parts\[(\d+)\]\[name\]$/);
     const mPartNotes = key.match(/^parts\[(\d+)\]\[notes\]$/);
     const mRow = key.match(/^parts\[(\d+)\]\[rows\]\[(\d+)\]\[(row_number|instruction)\]$/);
+    const mPartIntro = key.match(/^parts\[(\d+)\]\[introText\]$/);
+    const mPartOutro = key.match(/^parts\[(\d+)\]\[outroText\]$/);
 
     if (mPartId) {
       const pidx = mPartId[1];
-      if (!partsMap.has(pidx)) partsMap.set(pidx, { part_id: "", name: "", notes: "", rows: new Map() });
+      if (!partsMap.has(pidx)) partsMap.set(pidx, { part_id: "", name: "", notes: "", introText: "", outroText: "", rows: new Map() });
       partsMap.get(pidx).part_id = value;
     } else if (mPartName) {
       const pidx = mPartName[1];
-      if (!partsMap.has(pidx)) partsMap.set(pidx, { part_id: "", name: "", notes: "", rows: new Map() });
+      if (!partsMap.has(pidx)) partsMap.set(pidx, { part_id: "", name: "", notes: "", introText: "", outroText: "", rows: new Map() });
       partsMap.get(pidx).name = value;
     } else if (mPartNotes) {
       const pidx = mPartNotes[1];
-      if (!partsMap.has(pidx)) partsMap.set(pidx, { part_id: "", name: "", notes: "", rows: new Map() });
+      if (!partsMap.has(pidx)) partsMap.set(pidx, { part_id: "", name: "", notes: "", introText: "", outroText: "", rows: new Map() });
       partsMap.get(pidx).notes = value;
     } else if (mRow) {
       const pidx = mRow[1];
       const ridx = mRow[2];
       const field = mRow[3];
 
-      if (!partsMap.has(pidx)) partsMap.set(pidx, { part_id: "", name: "", notes: "", rows: new Map() });
+      if (!partsMap.has(pidx)) partsMap.set(pidx, { part_id: "", name: "", notes: "", introText: "", outroText: "", rows: new Map() });
       const partObj = partsMap.get(pidx);
 
       if (!partObj.rows.has(ridx)) partObj.rows.set(ridx, { row_number: null, instruction: "" });
@@ -462,6 +653,15 @@ form?.addEventListener("submit", async (evt) => {
 
       if (field === "row_number") rowObj.row_number = value ? parseInt(value, 10) : null;
       if (field === "instruction") rowObj.instruction = value;
+    }
+    else if (mPartIntro) {
+      const pidx = mPartIntro[1];
+      if (!partsMap.has(pidx)) partsMap.set(pidx, { part_id:"", name:"", notes:"", introText:"", outroText:"", rows:new Map() });
+      partsMap.get(pidx).introText = value;
+    } else if (mPartOutro) {
+      const pidx = mPartOutro[1];
+      if (!partsMap.has(pidx)) partsMap.set(pidx, { part_id:"", name:"", notes:"", introText:"", outroText:"", rows:new Map() });
+      partsMap.get(pidx).outroText = value;
     }
   }
 
@@ -475,6 +675,8 @@ form?.addEventListener("submit", async (evt) => {
       part_id: pObj.part_id || crypto.randomUUID(),
       name: pObj.name,
       notes: pObj.notes,
+      introText: pObj.introText || "",
+      outroText: pObj.outroText || "",
       rows
     });
   }
