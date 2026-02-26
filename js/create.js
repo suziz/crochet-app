@@ -108,12 +108,12 @@ function createRow(partIdx, rowIdx, instructionValue = "", rowNumberValue = "") 
 function createPartCard(partIdx, partNameValue = "", partId = crypto.randomUUID()) {
   const collapseId = `part-body-${partIdx}`;
   const card = document.createElement("div");
-  card.className = "card";
+  card.className = "card part-card";
   card.dataset.partIndex = partIdx;
   card.dataset.partId = partId;
 
 card.innerHTML = `
-  <div class="card-header d-flex align-items-center gap-2">
+  <div class="card-header d-flex align-items-center gap-2 part-header">
 
     <!-- Klickbar titel-yta -->
     <div class="d-flex align-items-center gap-2 flex-grow-1 part-toggle"
@@ -696,4 +696,13 @@ form?.addEventListener("submit", async (evt) => {
   await idbPut("patterns", pattern);
 
   window.location.href = `pattern.html?id=${encodeURIComponent(pattern.id)}`;
+});
+
+partsContainer?.addEventListener("input", (e) => {
+  const nameInput = e.target.closest('input[name$="[name]"]');
+  if (!nameInput) return;
+
+  const card = nameInput.closest(".card");
+  const titleSpan = card?.querySelector(".part-toggle span.fw-semibold");
+  if (titleSpan) titleSpan.textContent = nameInput.value.trim() || "Ny del";
 });

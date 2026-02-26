@@ -158,7 +158,7 @@ function renderPattern(p) {
       </div>
 
       ${imgUrl ? `
-        <img src="${escapeAttr(imgUrl)}" class="img-fluid rounded border mb-2" alt="Bild för mönster">
+        <img src="${escapeAttr(imgUrl)}" class="mx-auto d-block  pattern-image" alt="Bild för mönster">
       ` : ""}
     </div>
   `;
