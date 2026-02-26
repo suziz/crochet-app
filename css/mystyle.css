@@ -1,11 +1,91 @@
-.part-intro {
-  background: rgba(120, 180, 255, 0.12);
-  padding: 10px;
-  border: 1px solid rgba(120, 180, 255, 0.25);
+:root{
+  --app-accent: #ff7fbf;                 /* lite piggare rosa */
+  --app-accent-soft: rgba(255,127,191,.14);
+  --app-blue-soft: rgba(159,216,255,.16);
+
+  --app-card: rgba(255, 255, 255, 0.92);
+  --app-border: rgba(0, 0, 0, 0.06);
+  --app-shadow: 0 10px 24px rgba(0,0,0,0.10);
 }
 
-.part-outro {
-  background: rgba(255, 160, 220, 0.12);
+/* Samma header-styling i pattern och create */
+.part-card > .card-header {
+  background: linear-gradient(
+    135deg,
+    rgba(255,127,191,0.22),
+    rgba(159,216,255,0.16)
+  );
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.part-card > .card-header:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255,127,191,0.28),
+    rgba(159,216,255,0.20)
+  );
+}
+
+/* Toggle-yta */
+.part-toggle{
+  border-radius: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+
+.part-card .form-control,
+.part-card .form-control-sm {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.part-card .form-control:focus,
+.part-card .form-control-sm:focus {
+  border-color: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.08);
+}
+
+
+/* Intro/Outro: olika pastell */
+.part-intro{
+  background: rgba(159,216,255,0.22);
+  border: 1px solid rgba(159,216,255,0.35);
   padding: 10px;
-  border: 1px solid rgba(255, 160, 220, 0.25);
+  border-radius: 0.85rem;
+}
+.part-outro{
+  background: rgba(190, 255, 230, 0.28);
+  border: 1px solid rgba(150, 220, 195, 0.45);
+  padding: 10px;
+  border-radius: 0.85rem;
+}
+
+/* Om du vill färga textareas i create också */
+.part-card textarea[name$="[introText]"]{
+  background: rgba(190, 255, 230, 0.28);
+  border: 1px solid rgba(150, 220, 195, 0.45);
+}
+.part-card textarea[name$="[outroText]"]{
+  background: rgba(190, 255, 230, 0.28);
+  border: 1px solid rgba(150, 220, 195, 0.45);
+}
+
+.pattern-image{
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.14);
+}
+
+/* Informationsrutor i pattern */ 
+.desc-section { 
+  background: linear-gradient( 135deg, rgba(255, 158, 207, 0.12),
+                                       rgba(159, 216, 255, 0.10) ); 
+  border: 1px solid rgba(255, 255, 255, 0.08); 
+  border-radius: 0.9rem; 
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25); 
+  transition: background 0.2s ease; 
+} 
+.desc-section:hover 
+{ 
+  background: linear-gradient( 135deg, rgba(255, 158, 207, 0.18), 
+                                       rgba(159, 216, 255, 0.15) );
 }
