@@ -49,13 +49,11 @@
 .part-intro{
   background: rgba(159,216,255,0.22);
   border: 1px solid rgba(159,216,255,0.35);
-  padding: 10px;
   border-radius: 0.85rem;
 }
 .part-outro{
   background: rgba(190, 255, 230, 0.28);
   border: 1px solid rgba(150, 220, 195, 0.45);
-  padding: 10px;
   border-radius: 0.85rem;
 }
 
@@ -68,8 +66,8 @@
 
 /* Om du vill färga textareas i create också */
 .part-card textarea[name$="[introText]"]{
-  background: rgba(190, 255, 230, 0.28);
-  border: 1px solid rgba(150, 220, 195, 0.45);
+  background: rgba(159,216,255,0.22);
+  border: 1px solid rgba(159,216,255,0.35);
 }
 .part-card textarea[name$="[outroText]"]{
   background: rgba(190, 255, 230, 0.28);
