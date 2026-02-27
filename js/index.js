@@ -84,7 +84,7 @@ async function renderList() {
     editBtn.className = "btn btn-outline-secondary btn-sm";
     editBtn.innerHTML = `<i class="bi bi-pencil"></i>`;
     editBtn.title = "Redigera";
-    editBtn.href = `create_form.html?edit=${encodeURIComponent(p.id)}`;
+    editBtn.href = `create.html?edit=${encodeURIComponent(p.id)}`;
 
     // Ta bort
     const delBtn = document.createElement("button");

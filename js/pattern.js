@@ -152,7 +152,7 @@ function renderPattern(p) {
         <h1 class="h3 mb-2">${escapeHtml(p.name || "Namnlöst mönster")}</h1>
 
         <a class="btn btn-outline-secondary btn-sm"
-           href="create_form.html?edit=${encodeURIComponent(p.id)}">
+           href="create.html?edit=${encodeURIComponent(p.id)}">
           <i class="bi bi-pencil me-1"></i> Redigera
         </a>
       </div>
