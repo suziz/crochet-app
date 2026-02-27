@@ -59,7 +59,7 @@
 
 .part-intro,
 .part-outro {
-  padding: 0.2rem 0.5rem;   /* mindre padding */
+  padding: 0 0.5rem;   /* mindre padding */
   border-radius: 0.5rem;
   line-height: 1.2;          /* mindre radavstånd */
 }

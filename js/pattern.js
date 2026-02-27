@@ -36,8 +36,8 @@ function renderTextBlock(text, kind = "intro") {
   const cls = kind === "outro" ? "part-outro" : "part-intro";
 
   return `
-    <div class="${cls} mb-2 preserve-lines">
-      <div class="small opacity-75 mb-1">${label}</div>
+    <div class="${cls} mb-1  preserve-lines">
+      <div class="small opacity-75">${label}</div>
       <div>${escapeHtml(t)}</div>
     </div>
   `;
