@@ -2,6 +2,7 @@ import { idbGetAll, idbPut } from "./db.js";
 
 console.log("backup.js laddad");
 
+/* blob <-> dataURL konverteringar */
 function blobToDataUrl(blob) {
   return new Promise((resolve, reject) => {
     if (!blob) return resolve(null);
@@ -12,6 +13,7 @@ function blobToDataUrl(blob) {
   });
 }
 
+/* dataURL -> Blob */
 async function dataUrlToBlob(dataUrl) {
   if (!dataUrl) return null;
   const res = await fetch(dataUrl);

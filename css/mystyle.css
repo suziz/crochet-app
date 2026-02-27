@@ -25,6 +25,8 @@
   );
 }
 
+.part-header { cursor: pointer; user-select: none; }
+
 /* Toggle-yta */
 .part-toggle{
   border-radius: 0.75rem;
@@ -74,6 +76,30 @@
   border: 1px solid rgba(150, 220, 195, 0.45);
 }
 
+/* Lite mer luft mellan part-cards */
+.part-card + .part-card { margin-top: 1rem; }
+
+.part-actions button { white-space: nowrap; }
+
+.pattern-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.pattern-title {
+  flex: 1;
+  cursor: pointer;
+}
+
+.pattern-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: .5rem;
+  border: 1px solid var(--bs-border-color);
+}
+
 .pattern-image{
   border-radius: 1rem;
   border: 1px solid rgba(0, 0, 0, 0.25);
@@ -89,8 +115,29 @@
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25); 
   transition: background 0.2s ease; 
 } 
+
+.desc-section .section-title {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
 .desc-section:hover 
 { 
   background: linear-gradient( 135deg, rgba(255, 158, 207, 0.18), 
                                        rgba(159, 216, 255, 0.15) );
 }
+
+.row-item { display:flex; align-items:flex-start; gap:.75rem; }
+.row-text { flex: 1; }
+
+.strike { text-decoration: line-through; opacity: .75; }
+.preserve-lines { white-space: pre-line; }
+
+/*.desc-section { margin-bottom: 0.75rem; }*/
+
+.desc-items .col-md-6 { padding-bottom: 0.25rem; }
+.desc-items li { list-style: none; padding-left: 0; margin-bottom: 0.15rem; }
+
