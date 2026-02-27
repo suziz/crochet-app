@@ -61,7 +61,7 @@
 .part-outro {
   padding: 0.2rem 0.5rem;   /* mindre padding */
   border-radius: 0.5rem;
-  line-height: 1;          /* mindre radavstånd */
+  line-height: 1.2;          /* mindre radavstånd */
 }
 
 /* Om du vill färga textareas i create också */
